@@ -1,7 +1,5 @@
 package practice06;
 
-import sun.dc.pr.PRError;
-
 public class Student extends Person {
     private int classNumber = -1;
     private Klass klass;
@@ -20,6 +18,7 @@ public class Student extends Person {
         return this.klass;
     }
 
+    @Override
     public String introduce() {
         return super.introduce() + String.format(" I am a Student. I am at Class %d.", this.classNumber);
     }
