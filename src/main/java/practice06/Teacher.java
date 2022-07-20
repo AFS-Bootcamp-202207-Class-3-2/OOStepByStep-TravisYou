@@ -23,6 +23,7 @@ public class Teacher extends Person {
         return this.klass;
     }
 
+    @Override
     public String introduce() {
         return super.introduce() + " I am a Teacher. I teach " + (this.classNumber != -1 ? String.format("Class %d.", this.classNumber) : "No Class.");
     }

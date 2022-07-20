@@ -30,6 +30,7 @@ public class Student extends Person {
         return this.klass;
     }
 
+    @Override
     public String introduce() {
         return super.introduce() + String.format(" I am a Student. I am %s Class %d.", (this.equals(this.getKlass().getLeader()) ? "Leader of" : "at"), this.classNumber);
     }
