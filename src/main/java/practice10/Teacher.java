@@ -1,10 +1,14 @@
 package practice10;
 
-import java.util.ArrayList;
-import java.util.List;
+import javafx.util.Pair;
+
+import java.util.*;
 import java.util.stream.Collectors;
 
-public class Teacher extends Person {
+public class Teacher extends Person implements Observer {
+    private final String PREFIX_OUTPUT_OF_UPDATE = "I am %s. I know %s ";
+    private final List<String> TYPES = Arrays.asList(new String[]{"NEW_LEADER", "NEW_MEMBER"});
+    private final String[] END_OUTPUT_OF_UPDATE = {"become Leader of Class %d.\n", "has joined Class %d.\n"};
     private List<Klass> klasses;
 
     public Teacher(String name, int age) {
@@ -58,17 +62,15 @@ public class Teacher extends Person {
         return super.introduce() + " I am a Teacher. I" + (!isTeaching(student) ? " don't" : "") + " teach " + student.getName() + ".";
     }
 
-    public void knowLeader(Student student) {
+    @Override
+    public void update(Observable o, Object arg) {
+        Student student = (Student) ((Pair)arg).getKey();
+        String type = (String) ((Pair)arg).getValue();
         String teacherName = this.getName();
         String studentName = student.getName();
         int classNumber = student.getKlass().getNumber();
-        System.out.printf("I am %s. I know %s become Leader of Class %d.\n", teacherName, studentName, classNumber);
-    }
-
-    public void knowMemberJoin(Student student) {
-        String teacherName = this.getName();
-        String studentName = student.getName();
-        int classNumber = student.getKlass().getNumber();
-        System.out.printf("I am %s. I know %s has joined Class %d.\n", teacherName, studentName, classNumber);
+        int indexOfType = TYPES.indexOf(type);
+        String s = String.format(PREFIX_OUTPUT_OF_UPDATE + END_OUTPUT_OF_UPDATE[indexOfType], teacherName, studentName, classNumber);
+        System.out.printf(s);
     }
 }

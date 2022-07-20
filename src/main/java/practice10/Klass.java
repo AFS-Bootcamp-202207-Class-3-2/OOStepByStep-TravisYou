@@ -1,16 +1,18 @@
 package practice10;
 
+import javafx.util.Pair;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
-public class Klass {
+public class Klass extends Observable {
     private int classNumber;
     private Student leader;
     private List<Student> members;
     private Teacher teacher = null;
 
     public Klass(int classNumber) {
-        members = new ArrayList<Student>();
+        members = new ArrayList<>();
         this.classNumber = classNumber;
     }
 
@@ -29,7 +31,8 @@ public class Klass {
         }
         this.leader = student;
         if(this.teacher != null) {
-            this.teacher.knowLeader(student);
+            setChanged();
+            notifyObservers(new Pair(student, "NEW_LEADER"));
         }
     }
 
@@ -41,7 +44,8 @@ public class Klass {
         student.setKlass(this);
         members.add(student);
         if(this.teacher != null) {
-            this.teacher.knowMemberJoin(student);
+            setChanged();
+            notifyObservers(new Pair(student, "NEW_MEMBER"));
         }
     }
 
@@ -51,5 +55,6 @@ public class Klass {
 
     public void setTeacher(Teacher teacher) {
         this.teacher = teacher;
+        this.addObserver(teacher);
     }
 }
